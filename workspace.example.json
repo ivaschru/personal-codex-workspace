@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "initialized": false,
+  "owner": {
+    "displayName": "TODO",
+    "language": "ru",
+    "timezone": "TODO"
+  },
+  "privacy": {
+    "repositoryVisibility": "unknown",
+    "profileTracked": false,
+    "sensitiveDocumentsInGit": false,
+    "secretsInGit": false
+  },
+  "storage": {
+    "largeFiles": "local-only",
+    "backup": "not-configured"
+  },
+  "features": {
+    "tasks": true,
+    "projects": true,
+    "entities": false,
+    "externalIntegrations": []
+  }
+}

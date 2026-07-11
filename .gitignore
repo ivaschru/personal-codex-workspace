@@ -1,0 +1,22 @@
+.DS_Store
+.local/
+*.tmp
+*.log
+node_modules/
+__pycache__/
+.pytest_cache/
+.venv/
+dist/
+build/
+
+# Typical secret-bearing local files. Add service-specific names when integrations are enabled.
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Large or temporary personal artifacts should be explicitly classified before tracking.
+**/local-assets/
+**/local-private/

@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+"""Проверяет публичный шаблон или уже настроенное личное пространство.
+
+Скрипт использует только стандартную библиотеку, чтобы первичная проверка
+работала до установки каких-либо зависимостей. Он намеренно не пытается
+угадывать безопасность содержимого: вместо этого проверяет минимальные
+инварианты и несколько распространённых признаков случайной публикации.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parent.parent
+REQUIRED_TEMPLATE_PATHS = (
+    "AGENTS.md",
+    "SETUP.md",
+    "PROFILE.example.md",
+    "workspace.example.json",
+    "templates/task/README.md",
+    "templates/project/README.md",
+    "skills/create-private-workspace/SKILL.md",
+    "skills/setup-workspace/SKILL.md",
+    "skills/manage-personal-task/SKILL.md",
+    "skills/manage-personal-project/SKILL.md",
+    "skills/process-incoming-file/SKILL.md",
+)
+TEXT_SUFFIXES = {".md", ".json", ".yml", ".yaml", ".py", ".txt"}
+SUSPICIOUS_PATTERNS = {
+    "абсолютный пользовательский путь": re.compile(r"/(?:Users|home)/[^/\s]+/"),
+    "похожий на GitHub-токен фрагмент": re.compile(r"\bgh[opsu]_[A-Za-z0-9]{20,}\b"),
+    "начало приватного ключа": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+}
+
+
+def fail(message: str, errors: list[str]) -> None:
+    """Добавляет диагностическую ошибку, не прерывая остальные проверки."""
+
+    errors.append(message)
+
+
+def read_json(path: Path, errors: list[str]) -> dict:
+    """Читает JSON и возвращает пустой объект после понятной ошибки формата."""
+
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"Не удалось прочитать {path.relative_to(ROOT)}: {exc}", errors)
+        return {}
+
+
+def check_required_paths(errors: list[str]) -> None:
+    for relative in REQUIRED_TEMPLATE_PATHS:
+        if not (ROOT / relative).exists():
+            fail(f"Отсутствует обязательный путь: {relative}", errors)
+
+
+def check_template(errors: list[str]) -> None:
+    """Проверяет, что публичный исходник остаётся обезличенным шаблоном."""
+
+    for forbidden in ("PROFILE.md", "workspace.json", ".local"):
+        if (ROOT / forbidden).exists():
+            fail(f"В публичном шаблоне не должно быть: {forbidden}", errors)
+
+    example = read_json(ROOT / "workspace.example.json", errors)
+    if example and example.get("initialized") is not False:
+        fail("workspace.example.json должен содержать initialized=false", errors)
+
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or ".git" in path.parts or path.suffix not in TEXT_SUFFIXES:
+            continue
+        content = path.read_text(encoding="utf-8", errors="replace")
+        for label, pattern in SUSPICIOUS_PATTERNS.items():
+            if pattern.search(content):
+                fail(f"{path.relative_to(ROOT)}: найден {label}", errors)
+
+
+def check_configured(errors: list[str]) -> None:
+    """Проверяет минимальный результат персональной и машинной настройки."""
+
+    profile = ROOT / "PROFILE.md"
+    workspace = ROOT / "workspace.json"
+    machine = ROOT / ".local/machine-setup.json"
+
+    for path in (profile, workspace, machine):
+        if not path.exists():
+            fail(f"После настройки отсутствует: {path.relative_to(ROOT)}", errors)
+
+    if workspace.exists():
+        data = read_json(workspace, errors)
+        if data and data.get("initialized") is not True:
+            fail("workspace.json должен содержать initialized=true", errors)
+        visibility = data.get("privacy", {}).get("repositoryVisibility")
+        if visibility not in {"private", "local-only"}:
+            fail("Видимость должна быть подтверждена как private или local-only", errors)
+
+    if machine.exists():
+        read_json(machine, errors)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--mode", choices=("template", "configured"), required=True)
+    args = parser.parse_args()
+
+    errors: list[str] = []
+    check_required_paths(errors)
+    if args.mode == "template":
+        check_template(errors)
+    else:
+        check_configured(errors)
+
+    if errors:
+        print("Проверка не пройдена:")
+        for error in errors:
+            print(f"- {error}")
+        return 1
+
+    print(f"Проверка режима {args.mode} пройдена.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

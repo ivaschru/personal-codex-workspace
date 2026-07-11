@@ -1,0 +1,4 @@
+interface:
+  display_name: "Вести личный проект"
+  short_description: "Создание и ведение долгосрочного личного проекта"
+  default_prompt: "Используй $manage-personal-project, чтобы создать или обновить личный проект и его текущий статус."
