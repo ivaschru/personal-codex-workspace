@@ -96,7 +96,7 @@
     "skills/contribute-template-fix/agents/openai.yaml": "263782080aef2eb34f722f3473f9d594e758bccb429661cd55517233e488b571",
     "skills/create-private-workspace/SKILL.md": "894c172f1344681bf589f6d023dc01fc8ff562f28e828dd70f68a52a3af571ec",
     "skills/create-private-workspace/agents/openai.yaml": "49602fbb4cef1332e7edc9d8d3f4e272d7154a14065af1b3380a7e284f5cd715",
-    "skills/email-mailbox/SKILL.md": "7e93661aa557bd0a5cffeff66949bbd9953f6700d79cbfb8762b36fbfe66fbd9",
+    "skills/email-mailbox/SKILL.md": "c946720f14a55d65f23c691fddff461246caa4b71814645580bf78ace78aa329",
     "skills/email-mailbox/agents/openai.yaml": "c983c26b468a522e1a3bb5a64952b15bf533e9a81d99448835faa667254ee656",
     "skills/email-mailbox/references/accounts.example.toml": "2d9eb3ef4828fd4b6ddb4cd7624ccd53bbbbca3f50afc5910fa028f3383f9a43",
     "skills/email-mailbox/references/providers.md": "06211f56dbb15f18ee407277bed5ddc8f32cc8a5847e41ecb948ac33119b64b3",

@@ -37,7 +37,9 @@ python3 skills/email-mailbox/scripts/email_mailbox.py doctor --account ACCOUNT -
 
 ### Gmail OAuth
 
-Каждый владелец публичного шаблона создаёт собственный Google Cloud-проект и один Desktop OAuth client для всех своих Gmail-ящиков. Не использовать общий OAuth client автора шаблона: владелец аккаунтов должен сам контролировать consent screen, client secret, квоту и отзыв доступов.
+Для каждого владельца использовать его собственный Google Cloud-проект и один Desktop OAuth client для всех его Gmail-ящиков. Не использовать общий OAuth client автора шаблона: владелец аккаунтов должен сам контролировать consent screen, client secret, квоту и отзыв доступов.
+
+По явному запросу подключить Gmail агент самостоятельно выполняет переносимую настройку через доступный браузер: создаёт или выбирает личный проект пользователя, включает Gmail API, настраивает consent screen и Desktop OAuth client, переводит publishing status в `In production` и сохраняет client credentials только в ignored-конфигурацию. Не перекладывать навигацию по Google Cloud Console на пользователя. Владелец лично проходит только вход, выбор аккаунта, предупреждение непроверенного приложения, CAPTCHA и экран выдачи прав.
 
 Перед получением постоянных Gmail refresh-токенов перевести publishing status личного приложения из `Testing` в `In production`: Google ограничивает refresh-токены внешнего приложения в Testing семью днями, если запрошены не только базовые профильные scopes. Личное непроверенное приложение может показывать предупреждение; владелец проходит его вручную. Официальная документация: <https://developers.google.com/identity/protocols/oauth2#expiration>.
 
