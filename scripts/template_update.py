@@ -41,6 +41,8 @@ EXIT_CONFLICT = 3
 EXIT_VALIDATION = 4
 EXIT_UPDATE_AVAILABLE = 10
 EXIT_USER_ACTION = 20
+OLD_TEMPLATE_SOURCE = "https://github.com/ivaschru/personal-codex-workspace"
+NEW_TEMPLATE_SOURCE = "https://github.com/ivaschru/personal-agent-workspace"
 
 
 def parse_version(value: str) -> tuple[int, int, int]:
@@ -388,7 +390,12 @@ def validate_changed_paths(root: Path, manifest: dict) -> None:
 
 
 def validate_workspace_changes(original: Path, updated: Path) -> None:
-    """Разрешает служебные поля и одно безопасное добавление пустого modules."""
+    """Разрешает только служебные изменения и точную миграцию canonical source.
+
+    Переименование центрального репозитория требует обновить URL в уже созданных
+    приватных копиях. Разрешение намеренно задано одной точной парой значений:
+    произвольная подмена upstream по-прежнему считается небезопасной.
+    """
 
     before = load_json(original)
     after = load_json(updated)
@@ -398,6 +405,10 @@ def validate_workspace_changes(original: Path, updated: Path) -> None:
     after_safe.pop("updates", None)
     before_safe.setdefault("template", {}).pop("version", None)
     after_safe.setdefault("template", {}).pop("version", None)
+    before_source = before_safe.setdefault("template", {}).get("source")
+    after_source = after_safe.setdefault("template", {}).get("source")
+    if (before_source, after_source) == (OLD_TEMPLATE_SOURCE, NEW_TEMPLATE_SOURCE):
+        before_safe["template"]["source"] = NEW_TEMPLATE_SOURCE
     # Version 1.4.0 introduces the top-level registry. Adding an empty list is
     # schema initialization, while changing an existing list would alter the
     # owner's private module configuration and must remain forbidden.
