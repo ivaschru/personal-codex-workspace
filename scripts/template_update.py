@@ -388,7 +388,7 @@ def validate_changed_paths(root: Path, manifest: dict) -> None:
 
 
 def validate_workspace_changes(original: Path, updated: Path) -> None:
-    """Разрешает менять только template.version и служебный блок updates."""
+    """Разрешает служебные поля и одно безопасное добавление пустого modules."""
 
     before = load_json(original)
     after = load_json(updated)
@@ -398,6 +398,11 @@ def validate_workspace_changes(original: Path, updated: Path) -> None:
     after_safe.pop("updates", None)
     before_safe.setdefault("template", {}).pop("version", None)
     after_safe.setdefault("template", {}).pop("version", None)
+    # Version 1.4.0 introduces the top-level registry. Adding an empty list is
+    # schema initialization, while changing an existing list would alter the
+    # owner's private module configuration and must remain forbidden.
+    if "modules" not in before_safe and after_safe.get("modules") == []:
+        after_safe.pop("modules")
     if before_safe != after_safe:
         raise ValueError("Update попытался изменить личные поля workspace.json")
 

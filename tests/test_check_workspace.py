@@ -29,6 +29,7 @@ class ConfiguredWorkspaceTests(unittest.TestCase):
                 {
                     "initialized": True,
                     "privacy": {"repositoryVisibility": visibility},
+                    "modules": [],
                 }
             ),
             encoding="utf-8",

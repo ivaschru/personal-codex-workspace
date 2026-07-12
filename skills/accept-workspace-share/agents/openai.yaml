@@ -1,0 +1,4 @@
+interface:
+  display_name: "Принять общий объект Workspace"
+  short_description: "Подключить общий проект или задачу к Workspace"
+  default_prompt: "Используй $accept-workspace-share, чтобы проверить и подключить полученный общий объект к моему Workspace."
