@@ -127,9 +127,10 @@ class BootstrapIntegrationTests(unittest.TestCase):
             migrated = json.loads(
                 (private / "workspace.json").read_text(encoding="utf-8")
             )
-            self.assertEqual(migrated["template"]["version"], "1.3.1")
+            self.assertEqual(migrated["template"]["version"], "1.4.0")
             self.assertEqual(migrated["owner"]["displayName"], "Private Owner")
             self.assertIs(migrated["updates"]["autoApply"], True)
+            self.assertEqual(migrated["modules"], [])
             self.assertEqual((private / "PROFILE.md").read_text(encoding="utf-8"), profile_text)
             self.assertEqual(personal_task.read_text(encoding="utf-8"), "Личная задача\n")
 

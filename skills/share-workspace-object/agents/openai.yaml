@@ -1,0 +1,4 @@
+interface:
+  display_name: "Поделиться объектом Workspace"
+  short_description: "Безопасно вынести и передать проект или задачу"
+  default_prompt: "Используй $share-workspace-object, чтобы безопасно поделиться выбранным проектом или задачей с другим пользователем."

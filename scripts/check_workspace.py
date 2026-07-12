@@ -28,10 +28,12 @@ REQUIRED_TEMPLATE_PATHS = (
     "PROFILE.example.md",
     "scripts/build_template_manifest.py",
     "scripts/template_update.py",
+    "scripts/workspace_modules.py",
     "workspace.example.json",
     "templates/task/README.md",
     "templates/project/README.md",
     "skills/create-private-workspace/SKILL.md",
+    "skills/accept-workspace-share/SKILL.md",
     "skills/contribute-template-fix/SKILL.md",
     "skills/email-mailbox/SKILL.md",
     "skills/gas-pravosudie/SKILL.md",
@@ -43,6 +45,7 @@ REQUIRED_TEMPLATE_PATHS = (
     "skills/ozon-buyer-search/SKILL.md",
     "skills/process-incoming-file/SKILL.md",
     "skills/russian-post-registered-mail/SKILL.md",
+    "skills/share-workspace-object/SKILL.md",
     "skills/t-bank/SKILL.md",
     "skills/telegram-messenger/SKILL.md",
     "skills/trelio/SKILL.md",
@@ -111,6 +114,9 @@ def check_template(errors: list[str]) -> None:
         if updates.get(key) is not True:
             fail(f"Update policy должна включать {key}=true по умолчанию", errors)
 
+    if example.get("modules") != []:
+        fail("workspace.example.json должен начинаться с пустого массива modules", errors)
+
     manifest_path = ROOT / "template-manifest.json"
     if manifest_path.exists():
         manifest = read_json(manifest_path, errors)
@@ -144,6 +150,8 @@ def check_installed(errors: list[str]) -> None:
     visibility = data.get("privacy", {}).get("repositoryVisibility")
     if visibility not in {"private", "local-only"}:
         fail("Видимость должна быть подтверждена как private или local-only", errors)
+    if not isinstance(data.get("modules"), list):
+        fail("workspace.json.modules должен быть массивом", errors)
 
     version_path = ROOT / "VERSION"
     if version_path.exists() and data:

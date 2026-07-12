@@ -9,6 +9,9 @@ __pycache__/
 dist/
 build/
 
+# Canonical checkouts of shared Workspace objects are separate Git repositories.
+/shared/
+
 # Typical secret-bearing local files. Add service-specific names when integrations are enabled.
 .env
 .env.*

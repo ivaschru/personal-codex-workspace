@@ -47,7 +47,7 @@ class TemplateUpdateTests(unittest.TestCase):
         manifest = json.loads(
             (ROOT / "template-manifest.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(manifest["version"], "1.3.1")
+        self.assertEqual(manifest["version"], "1.4.0")
         self.assertEqual(manifest["updateMode"], "automatic")
         self.assertIs(manifest["requiresUserAction"], False)
 
@@ -107,6 +107,29 @@ class TemplateUpdateTests(unittest.TestCase):
             updated.write_text(json.dumps(after), encoding="utf-8")
             UPDATE.validate_workspace_changes(original, updated)
             after["owner"]["displayName"] = "Changed"
+            updated.write_text(json.dumps(after), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                UPDATE.validate_workspace_changes(original, updated)
+
+    def test_workspace_guard_allows_only_initial_empty_modules(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            original = root / "original.json"
+            updated = root / "updated.json"
+            before = {
+                "owner": {"displayName": "Private"},
+                "template": {"source": "central", "version": "1.3.1"},
+            }
+            after = {
+                **before,
+                "template": {"source": "central", "version": "1.4.0"},
+                "modules": [],
+            }
+            original.write_text(json.dumps(before), encoding="utf-8")
+            updated.write_text(json.dumps(after), encoding="utf-8")
+            UPDATE.validate_workspace_changes(original, updated)
+
+            after["modules"] = [{"moduleId": "unexpected"}]
             updated.write_text(json.dumps(after), encoding="utf-8")
             with self.assertRaises(ValueError):
                 UPDATE.validate_workspace_changes(original, updated)

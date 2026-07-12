@@ -1,5 +1,14 @@
 # История версий
 
+## 1.4.0 – 2026-07-13
+
+- Добавлен нейтральный формат `workspace-module.json` для отдельных общих проектов, подпроектов, задач и папок.
+- Добавлены навыки `share-workspace-object` и `accept-workspace-share`.
+- Добавлен standard-library инструмент `workspace_modules.py`: dependency/privacy inspection, fresh snapshot, manifest validation, registration, logical references и doctor.
+- Канонические checkout общих объектов хранятся в ignored `shared/`, а родительский Workspace содержит только декларацию и tracked reference.
+- Стандартный режим истории – fresh snapshot: история личного репозитория не передаётся получателю.
+- Добавлена идемпотентная миграция поля `modules` для существующих приватных копий.
+
 ## 1.3.1 – 2026-07-12
 
 - Исправлено создание временных подпапок перед скачиванием base и target release archives.
