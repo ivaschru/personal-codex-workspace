@@ -25,6 +25,8 @@ class IntegrationPreflightTests(unittest.TestCase):
                 "ozon-buyer-search",
                 "russian-post-registered-mail",
                 "t-bank",
+                "telegram-messenger",
+                "trelio",
             },
         )
 
@@ -47,6 +49,22 @@ class IntegrationPreflightTests(unittest.TestCase):
         self.assertEqual(
             PREFLIGHT.enabled_integrations(workspace), {"max-messenger"}
         )
+
+    def test_trelio_policy_is_mcp_only(self) -> None:
+        text = (SCRIPT.parents[1] / "skills/trelio/SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("https://trelio.ru/mcp", text)
+        self.assertIn("Не использовать браузерный интерфейс", text)
+
+    def test_telegram_does_not_bundle_application_credentials(self) -> None:
+        root = SCRIPT.parents[1]
+        for path in (root / "skills/telegram-messenger").rglob("*"):
+            if not path.is_file():
+                continue
+            text = path.read_text(encoding="utf-8")
+            self.assertNotRegex(text, r"TELEGRAM_API_ID\s*=\s*\d+")
+            self.assertNotRegex(text, r"TELEGRAM_API_HASH\s*=\s*[0-9a-fA-F]{20,}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Telegram"
+  short_description: "Поиск, чтение и отправка в выбранном чате"
+  default_prompt: "Используй $telegram-messenger для работы с конкретным чатом или сообщением в Telegram."

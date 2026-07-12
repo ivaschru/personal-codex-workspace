@@ -38,6 +38,8 @@ REQUIRED_TEMPLATE_PATHS = (
     "skills/process-incoming-file/SKILL.md",
     "skills/russian-post-registered-mail/SKILL.md",
     "skills/t-bank/SKILL.md",
+    "skills/telegram-messenger/SKILL.md",
+    "skills/trelio/SKILL.md",
 )
 TEXT_SUFFIXES = {".md", ".json", ".yml", ".yaml", ".py", ".txt"}
 SUSPICIOUS_PATTERNS = {

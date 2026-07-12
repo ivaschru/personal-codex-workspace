@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trelio"
+  short_description: "Работа с задачами и проектами Trelio"
+  default_prompt: "Используй $trelio для чтения или подтверждённого обновления выбранной задачи Trelio."
