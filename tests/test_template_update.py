@@ -114,6 +114,34 @@ class TemplateUpdateTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 UPDATE.validate_workspace_changes(original, updated)
 
+    def test_workspace_guard_allows_only_exact_source_rename(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            original = root / "original.json"
+            updated = root / "updated.json"
+            before = {
+                "owner": {"displayName": "Private"},
+                "template": {
+                    "source": UPDATE.OLD_TEMPLATE_SOURCE,
+                    "version": "1.6.0",
+                },
+            }
+            after = {
+                "owner": {"displayName": "Private"},
+                "template": {
+                    "source": UPDATE.NEW_TEMPLATE_SOURCE,
+                    "version": "2.0.0",
+                },
+            }
+            original.write_text(json.dumps(before), encoding="utf-8")
+            updated.write_text(json.dumps(after), encoding="utf-8")
+            UPDATE.validate_workspace_changes(original, updated)
+
+            after["template"]["source"] = "https://github.com/example/untrusted"
+            updated.write_text(json.dumps(after), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                UPDATE.validate_workspace_changes(original, updated)
+
     def test_workspace_guard_allows_only_initial_empty_modules(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

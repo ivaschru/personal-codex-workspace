@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 REQUIRED_TEMPLATE_PATHS = (
     "AGENTS.md",
+    "CLAUDE.md",
     "BOOTSTRAP_UPDATE.md",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
@@ -89,6 +90,10 @@ def check_template(errors: list[str]) -> None:
     for forbidden in ("PROFILE.md", "workspace.json", ".local"):
         if (ROOT / forbidden).exists():
             fail(f"В публичном шаблоне не должно быть: {forbidden}", errors)
+
+    claude_path = ROOT / "CLAUDE.md"
+    if claude_path.exists() and "@AGENTS.md" not in claude_path.read_text(encoding="utf-8"):
+        fail("CLAUDE.md должен импортировать канонический AGENTS.md", errors)
 
     example = read_json(ROOT / "workspace.example.json", errors)
     if example and example.get("initialized") is not False:
