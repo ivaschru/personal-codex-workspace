@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "2.1.0",
+  "version": "2.2.0",
   "updateMode": "automatic",
   "updaterVersion": "1.0.0",
   "minimumUpdaterVersion": "1.0.0",
@@ -86,17 +86,17 @@
     ".gitignore": "3ced7fae4d782bfa47a31465bd24b622436227b9c96a2ad8c0a2192112ddc3e4",
     "AGENTS.md": "1a7b1a9237e0f312bd60aa432c7aae2bdb9e6a6cbc5532e35a75fb8085df84e5",
     "BOOTSTRAP_UPDATE.md": "d45c2adac86b71681816fe4eb4154adf61aa1a24419194b43a9cfc59a1143fcb",
-    "CHANGELOG.md": "af65f0eeaf5899da633270ae7df072bd2a6168d6ccfdb3cc2d6c5be256dfba77",
+    "CHANGELOG.md": "6efbb86be86e7e9b7c906d218674353141380f0ffb03d996e836758110fb412d",
     "CLAUDE.md": "a8d9e8720b7b8108eb1a4ad152a2ee88e8e1d93563389cb8abb591307e179db8",
     "CONTRIBUTING.md": "961ce937bd130fc0f9150a49b7e74b298a56fc70bae7afb58eb5095ec00ad687",
     "INTEGRATIONS.md": "63c6d6375f729c8625063774b3ed109ffd36fdbc7a5832b3ae1dbb2c82293d05",
     "LICENSE": "43b5197607daafebffe6335cff4ad65e7c4ed8aaf237f77f7df4b47ae86802d2",
     "PROFILE.example.md": "5ec23b6c6d025792a5d5cf24aec9da63b9903a63737a25dcf35f13d0a907d1e6",
-    "README.md": "9ac440994d8e6889a475f19a1a19e4081977e7d0e3d3fdec89f8b32aaa4f6567",
+    "README.md": "0465bdf243f527ef0d5afe98a6724d229c0d4448820ffa43a1e9595999f4a552",
     "RELEASES.md": "06281d7f32829b1119807b11142c9810ddc1bacf67bba38341f13b77fde51d9d",
     "SECURITY.md": "b2f1ff9d14a650b3579b5054d413f8f0fa1860a7543c42f5f965be6f3c1c11cc",
     "SETUP.md": "72956130728353108661556d127ec5f9cbe25f8ceccee5ff6655f291305b4716",
-    "VERSION": "c89b87c262e9d5ffd20e73aac74a1772adcc9f5a21682cc33adcf5086e5fef5c",
+    "VERSION": "c4a2383a03bdb6739d16a0e24058e4b9c7da4e63d203e0be2f448868cc03c530",
     "entities/README.md": "2e5dfef89e80c3fe97298d7d6793ce14c8268d8197a489f2d8ce54987007dec8",
     "migrations/1.3.0_add_automatic_updates.py": "c9be8dc0d12fe5cd365098127ea314afc8460538ea9df43d784d46845f447168",
     "migrations/1.4.0_add_workspace_modules.py": "24d03dd5c3bc491589898d83a71ffc3506506c21546177d764a9daea1f581161",
@@ -170,6 +170,6 @@
     "tests/test_release_policy.py": "d8c1e0cabc511a5642767f5e1cc28a2a11e146c7bfad290590f6b66655f20644",
     "tests/test_template_update.py": "697a04c1d24948bf8d629fdd527dddc6559d1cfd4442ff5295ff2dbc1e7beedf",
     "tests/test_workspace_modules.py": "f3c64315d4303299fb73f754cd1c0e45655ad0792372da0b787f905443d76d78",
-    "workspace.example.json": "10cec5f6d9c6c376f4972834dced8b1acb587dea1246f59c666cf88f49cbb816"
+    "workspace.example.json": "33513ec53cb1163633d948b611e38e872b5ef16f7d892c742d5e469023104f5b"
   }
 }
